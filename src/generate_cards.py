@@ -28,6 +28,7 @@ if __name__ == '__main__':
             "with alternate rolling to find options." in item.description,
             "from the Crooked Moon potions." in item.description,
             "from the Crooked Moon cursed curios." in item.description,
+            "Paper" in item.item_name,
             ]
         if not any(skip_conditions):
             card = Card(

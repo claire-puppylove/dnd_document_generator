@@ -187,7 +187,7 @@ class ManualGenerator:
             for x in range(len(sourcefile)):
                 row = sourcefile.loc[x]
                 self.items.append(Item(
-                    item_name=row.item_name,
+                    item_name=row.item_name.split("(DM Eyes only:")[0],
                     storage=row.storage,
                     monsters=row.monsters,
                     item_type=row.item_type.split("(DM Eyes only:")[0],
