@@ -1,6 +1,6 @@
 [project]
-name = "manual-generator"
-version = "1.8.1"
+name = "game_documents_generator"
+version = "2.0.0"
 description = ""
 authors = [
     {name = "claire-puppylove",email = "claire.puppylove.model@gmail.com"}
@@ -14,10 +14,18 @@ dependencies = [
     "md-toc (>=9.0.0,<10.0.0)",
     "pyhtml2pdf (>=0.1.0,<0.2.0)",
     "html2text (>=2025.4.15,<2026.0.0)",
+    "weasyprint (>=70.0,<71.0)",
+    "playwright (>=1.63.0,<2.0.0)",
+    "pdfkit (>=1.0.0,<2.0.0)",
+    "beautifulsoup4 (>=4.15.0,<5.0.0)",
 ]
 
 [tool.poetry]
-packages = [{include = "manual_generator", from = "src"}]
+packages = [
+    {include = "document_utils", from = "src"},
+    {include = "manual_generator", from = "src"},
+    {include = "card_generator", from = "src"},
+]
 
 
 [build-system]

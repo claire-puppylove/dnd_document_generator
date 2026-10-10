@@ -18,7 +18,8 @@ body .markdown-body
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   color: #333333;
-  overflow: hidden;
+  /*overflow: hidden;*/
+  overflow: visible;
   font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
   font-size: 1em;
   line-height: 1.3;
@@ -507,6 +508,13 @@ body .markdown-body
   display:block;
   width: 100%;
   column-span: all;
+  break-inside: auto;
+  overflow: auto;
+}
+
+.markdown-body .wide,
+.markdown-body .wide *{
+  page-break-inside: auto!important;
 }
 
 .markdown-body code,
@@ -947,12 +955,15 @@ body .markdown-body
   size:A4;
   margin-top: 0.4in;
   margin-bottom: 0.4in;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 @media print {
   body {
     max-width: 100% !important;
     margin: 0 15mm 0 15mm !important;
+    background: transparent !important;
   }
 
   body .markdown-body
@@ -961,7 +972,7 @@ body .markdown-body
     background: transparent !important;
   }
 
-  .markdown-body * {
+  .markdown-body *:not(hr) {
     background: transparent !important;
     filter:none !important;
     -ms-filter: none !important;
@@ -1044,9 +1055,12 @@ body .markdown-body
     widows: 3 !important;
   }
 
+  .markdown-body h1,
   .markdown-body h2,
   .markdown-body h3,
-  .markdown-body h4 {
+  .markdown-body h4,
+  .markdown-body h5,
+  .markdown-body h6, {
     page-break-after: avoid !important;
   }
 
@@ -1077,6 +1091,10 @@ body .markdown-body
     page-break-after:always;
     display: block;
   } /* page-break-before works, as well */
+
+  .markdown-body .wide {
+    page-break-inside:auto !important;
+  }
 
 }
 

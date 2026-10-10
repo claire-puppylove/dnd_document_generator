@@ -2,9 +2,9 @@ import argparse
 import pandas
 import pathlib
 # import logging
-from manual_generator.html_to_pdf import html_to_pdf
+from document_utils.html_to_pdf import html_to_pdf
+from document_utils.markdown_html import MarkdownCompiler
 from manual_generator.shop_csv_to_manual import ShopMenu
-from manual_generator.markdown_html import MarkdownCompiler
 
 # shop_1_filename = pathlib.Path("../assets/sample_shop.csv")
 # shop_1_sourcefile = pandas.read_csv(shop_1_filename, sep=",", quotechar='"', quoting=0)
