@@ -62,4 +62,3 @@ class MarkdownCompiler:
         html += '</body>'
         html += '</html>'
         return html, body
-
