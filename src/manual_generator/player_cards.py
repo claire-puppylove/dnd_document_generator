@@ -119,12 +119,14 @@ class Card:
         lines = (
             (len(sout)//51)
             -(sout.count("<span class='subtitle'>")*2)
+            -(sout.count("&nbsp;")*5)
             +(sout.count("<br>"))
             # +(sout.count("<div class= 'divider'>"))
             )
         out = fout+sout
         if lines > 30:
-            print(f"Warning: card text too long for card {self.item_name}, using two cards *counted {lines} lines.")
+            print(f"Warning: card text too long for card {self.item_name}, breaking new line and using two cards *counted {lines} lines.")
+            out = "<br>\n" + out
             out+= f"    </div>\n"
             out+= f"    <div class='{self.card_length}'>\n"
             out+= f"        <div class='item_name'><h1>\n"
