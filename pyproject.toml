@@ -1,6 +1,6 @@
 [project]
 name = "game_documents_generator"
-version = "2.0.0"
+version = "2.1.0"
 description = ""
 authors = [
     {name = "claire-puppylove",email = "claire.puppylove.model@gmail.com"}
@@ -19,6 +19,13 @@ dependencies = [
     "pdfkit (>=1.0.0,<2.0.0)",
     "beautifulsoup4 (>=4.15.0,<5.0.0)",
 ]
+
+[project.scripts]
+generate_cards = 'generate_cards:main'
+generate_manuals = 'generate_manuals:main'
+generate_shop_cards = 'generate_shop_cards:main'
+generate_shop_menus = 'generate_shop_menus:main'
+markdown_to_manual = 'markdown_to_manual:main'
 
 [tool.poetry]
 packages = [

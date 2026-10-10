@@ -7,17 +7,12 @@ from document_utils.markdown_html import MarkdownCompiler
 from manual_generator.shop_csv_to_manual import ShopMenu
 from card_generator.player_cards import Card, PrintCards
 
-# shop_1_filename = pathlib.Path("../assets/sample_shop.csv")
-# shop_1_sourcefile = pandas.read_csv(shop_1_filename, sep=",", quotechar='"', quoting=0)
-# shop_2_filename = pathlib.Path("../assets/sample_smith_weapons.csv")
-# shop_2_sourcefile = pandas.read_csv(shop_2_filename, sep=",", quotechar='"', quoting=0)
-
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-f", "--file", type=str, default="sample_shop")
     parser.add_argument("-t", "--title", type=str, default="Sample Shop Cards")
-    parser.add_argument("-d", "--destination", type=str, default="../cards/")
-    parser.add_argument("-s", "--sourcefile", type=str, default="../assets/sample_shop.csv")
+    parser.add_argument("-d", "--destination", type=str, default="cards/")
+    parser.add_argument("-s", "--sourcefile", type=str, default="assets/sample_shop.csv")
     parser.add_argument('--pdf', action='store_true')
     parser.add_argument('--no-pdf', dest='pdf', action='store_false')
     parser.set_defaults(pdf=True)
@@ -120,3 +115,6 @@ if __name__ == '__main__':
         f.write(html)
     if args.pdf:
         html_to_pdf(html, filename.with_name(title).with_suffix('.pdf'))
+
+if __name__ == '__main__':
+    main()

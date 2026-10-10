@@ -1,4 +1,4 @@
-import os
+import pathlib
 import codecs
 import markdown
 import html2text
@@ -7,25 +7,12 @@ import re
 
 # references: https://github.com/facelessuser/MarkdownPreview/blob/master/markdown_preview.py
 
+PROJECT_PATH = pathlib.Path(__file__).parent.parent.parent.resolve()
+
 def load_utf8(filename):
     """Load UTF8 file."""
     with codecs.open(filename, 'r', encoding='utf-8') as f:
         return f.read()
-
-DEFAULT_CSS = [
-        "./css/libre-baskerville.css",
-        "./css/card.css",
-        ]
-
-def get_css():
-    """Locate the correct CSS with the `css` setting."""
-    css = DEFAULT_CSS
-    css_text = []
-    css_text = [
-        f"<style>{load_utf8(os.path.expanduser(i))}</style>"
-        for i in css
-        ]
-    return "\n".join(css_text)
 
 class Card:
     '''
@@ -225,21 +212,23 @@ class Card:
         return out
 
 class PrintCards:
-    def get_title(self):
-        """Get HTML title."""
-        if self.meta_title is not None:
-            title = self.meta_title
-        else:
-            title = self.view.name()
-        if not title:
-            fn = self.view.file_name()
-            title = 'untitled' if not fn else os.path.splitext(os.path.basename(fn))[0]
-        return '<title>%s</title>' % html.escape(title)
+    default_css = [
+            PROJECT_PATH / "css" / "libre-baskerville.css",
+            PROJECT_PATH / "css" / "card.css",
+            ]
+    def get_default_css(self):
+        """Locate the correct CSS with the `css` setting."""
+        css_text = []
+        css_text = [
+            f"<style>{load_utf8(i.resolve())}</style>"
+            for i in self.default_css
+            ]
+        return "\n".join(css_text)
     def run(self, cards_html, title):
         html = '<!DOCTYPE html>'
         html += '<html><head><meta charset="utf-8">'
         html += '<meta name="viewport" content="width=device-width, initial-scale=1">'
-        html += get_css()
+        html += self.get_default_css()
         html += '<title>%s</title>' % title
         html += '</head><body>'
         html += cards_html
