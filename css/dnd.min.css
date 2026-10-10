@@ -14,13 +14,14 @@ h1,h2,h3,h4,h5,h6{
 }
 
 h1:first-letter,h2:first-letter,h3:first-letter,h4:first-letter,h5:first-letter,h6:first-letter{
-    font-size:150%
+    font-size:120%
 }
 
 h1{
     font-size:24px
+    font-weight:700;
 }
-h1,h2{
+h1,h2,h3{
     border-bottom:2px solid tan
 }
 

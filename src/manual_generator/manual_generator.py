@@ -4,12 +4,6 @@ from typing import Literal, Optional
 
 FILE_MONSTER_DROPS = pathlib.Path("../assets/monster_drops_all_dm.csv")
 MONSTER_DROPS = pandas.read_csv(FILE_MONSTER_DROPS, sep=",", quotechar='"', quoting=0)
-FILE_README = pathlib.Path("../README.md")
-with open(FILE_README, 'r') as f:
-    README = f.read()
-FILE_README_PLAYER = pathlib.Path("../README_player.md")
-with open(FILE_README_PLAYER, 'r') as f:
-    README_PLAYER = f.read()
 
 class Item:
     '''
@@ -28,6 +22,7 @@ class Item:
         find_checks:     dict[str:list[str]]: Ability checks one might use to harvest or find the item as treasure
         find_dc:         dict[str:list[str]]: The DC for the Ability checks to find or harvest the item
         location:        dict[str:list[str]]: The location that the monsters that drop the item are in
+        source:          str                : The source book the item is cited from
     '''
     def __init__(
             self,
@@ -115,6 +110,8 @@ class Item:
             out+= f"**Source**: {", ".join(self.source[self.monsters[0]])}  \n"
         if self.item_type[0]!="-":
             out+= f"_{self.item_type}_  \n"
+        if self.storage!="-":
+            out+= f"**Store in**: _{self.storage}_  \n"
         if self.ingredient_type[0]!="-":
             out+= f"**Use as ingredient for**: _{", ".join(self.ingredient_type)}_  \n"
         if self.crafting_value[0]!="-":
@@ -202,7 +199,7 @@ class ManualGenerator:
                     find_checks="Crafted Item" if "Crafted Item" in row.find_checks else "-",
                     find_dc="-",
                     location="-",
-                    source=row.source,
+                    source=row.source.split("(")[0],
                     ))
     def by_item(self):
         if self.version == "dm":
@@ -271,11 +268,6 @@ class ManualGenerator:
         return out
     def __str__(self):
         out = ""
-        if self.version=="dm":
-            out+= README
-        elif self.version=="player":
-            out+= README_PLAYER
-        out+= "\n  \n\n"
         if self.mode=="by_item":
             out+= "## Harvesting Items (By item and in order of appearance)  \n\n"
             out+= self.by_item()
@@ -283,4 +275,3 @@ class ManualGenerator:
             out+= "## Harvesting Items (By Monster, repeating items where necessary)  \n\n"
             out+= self.by_monster()
         return out
-    

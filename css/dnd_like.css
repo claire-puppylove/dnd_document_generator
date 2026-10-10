@@ -18,10 +18,15 @@ h1 {
 }
 
 h2 {
-    font-family: 'Noto Sans', 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
+    /*font-family: 'Noto Sans', 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;*/
+    font-family: 'Libre Baskerville', 'Lora', 'Calisto MT', 'Bookman Old Style', Bookman, 'Goudy Old Style', Garamond, 'Hoefler Text', 'Bitstream Charter', Georgia, serif;
     font-weight: normal;
     margin: 0;
     border-color: #922610!important;
+    border-bottom: 2px solid #922610!important;
+}
+
+h3 {
     border-bottom: 2px solid #922610!important;
 }
 
