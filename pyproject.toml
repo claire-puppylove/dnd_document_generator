@@ -1,0 +1,24 @@
+[project]
+name = "manual-generator"
+version = "1.0.0"
+description = ""
+authors = [
+    {name = "claire-puppylove",email = "claire.puppylove.model@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12,<4"
+dependencies = [
+    "pandas (>=2.3.3,<3.0.0)",
+    "pathlib (>=1.0.1,<2.0.0)",
+    "markdown (>=3.9,<4.0)",
+    "md-toc (>=9.0.0,<10.0.0)",
+    "pdfkit (>=1.0.0,<2.0.0)",
+]
+
+[tool.poetry]
+packages = [{include = "manual_generator", from = "src"}]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
