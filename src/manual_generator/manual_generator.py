@@ -7,6 +7,9 @@ MONSTER_DROPS = pandas.read_csv(FILE_MONSTER_DROPS, sep=",", quotechar='"', quot
 FILE_README = pathlib.Path("../README.md")
 with open(FILE_README, 'r') as f:
     README = f.read()
+FILE_README_PLAYER = pathlib.Path("../README_player.md")
+with open(FILE_README_PLAYER, 'r') as f:
+    README_PLAYER = f.read()
 
 class Item:
     '''
@@ -268,7 +271,10 @@ class ManualGenerator:
         return out
     def __str__(self):
         out = ""
-        out+= README
+        if self.version=="dm":
+            out+= README
+        elif self.version=="player":
+            out+= README_PLAYER
         out+= "\n  \n\n"
         if self.mode=="by_item":
             out+= "## Harvesting Items (By item and in order of appearance)  \n\n"
