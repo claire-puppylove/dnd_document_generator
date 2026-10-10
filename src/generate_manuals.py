@@ -1,4 +1,5 @@
 import argparse
+import pandas
 import pathlib
 # import md_toc
 # import pdfkit
@@ -11,9 +12,12 @@ if __name__ == '__main__':
     parser.add_argument("-v", "--version", type=str, default="dm")
     parser.add_argument("-m", "--mode", type=str, default="by_item")
     parser.add_argument("-d", "--destination", type=str, default="../manuals/")
+    parser.add_argument("-s", "--sourcefile", type=str, default="../assets/monster_drops_all_dm.csv")
     args = parser.parse_args()
     filename = pathlib.Path(args.destination) / pathlib.Path(f"{args.file}_{args.version}_{args.mode}.md")
-    out = str(ManualGenerator(version=args.version,mode=args.mode))
+    sourcefile = pathlib.Path(args.sourcefile)
+    MONSTER_DROPS = pandas.read_csv(sourcefile, sep=",", quotechar='"', quoting=0)
+    out = str(ManualGenerator(version=args.version,mode=args.mode,sourcefile=MONSTER_DROPS))
     with open(filename,"w") as f:
         f.write(out)
         # #insert Table of Contents

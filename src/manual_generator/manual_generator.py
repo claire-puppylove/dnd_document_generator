@@ -1,6 +1,6 @@
 import pandas
 import pathlib
-from typing import Literal
+from typing import Literal, Optional
 
 FILE_MONSTER_DROPS = pathlib.Path("../assets/monster_drops_all_dm.csv")
 MONSTER_DROPS = pandas.read_csv(FILE_MONSTER_DROPS, sep=",", quotechar='"', quoting=0)
@@ -175,15 +175,17 @@ class ManualGenerator:
                 "by_item",
                 "by_monster",
                 ]="by_item",
+            sourcefile:Optional[pandas.DataFrame]=None,
             ):
         self.version = version
         self.mode = mode
+        sourcefile = MONSTER_DROPS if sourcefile is None else sourcefile
         if self.version=="dm":
-            self.items = [Item(*MONSTER_DROPS.loc[x]) for x in range(len(MONSTER_DROPS))]
+            self.items = [Item(*sourcefile.loc[x]) for x in range(len(sourcefile))]
         elif self.version=="player":
             self.items = []
-            for x in range(len(MONSTER_DROPS)):
-                row = MONSTER_DROPS.loc[x]
+            for x in range(len(sourcefile)):
+                row = sourcefile.loc[x]
                 self.items.append(Item(
                     item_name=row.item_name,
                     storage=row.storage,
