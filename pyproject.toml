@@ -1,6 +1,6 @@
 [project]
 name = "manual-generator"
-version = "1.7.0"
+version = "1.8.0"
 description = ""
 authors = [
     {name = "claire-puppylove",email = "claire.puppylove.model@gmail.com"}
@@ -13,6 +13,7 @@ dependencies = [
     "markdown (>=3.9,<4.0)",
     "md-toc (>=9.0.0,<10.0.0)",
     "pyhtml2pdf (>=0.1.0,<0.2.0)",
+    "html2text (>=2025.4.15,<2026.0.0)",
 ]
 
 [tool.poetry]

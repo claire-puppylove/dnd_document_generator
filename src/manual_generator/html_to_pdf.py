@@ -1,9 +1,26 @@
 import re
 import textwrap
-from pyhtml2pdf import converter # chromedriver, ghostscirpt dependency
 
-# import pdfkit # wkhtmltopdf dependency
-# import weasyprint # errors
+## HTML to PDF Options
+
+# pdfkit 
+# import pdfkit
+# has hard to install wkhtmltopdf dependency
+
+# pyhtml2pdf
+from pyhtml2pdf import converter 
+# most successful for my project until now, but...
+# has chromedriver dependency (separate install, problem for de-googled users AND less experienced users)
+# has ghostscirpt dependency (separate install, problem for less experienced users)
+
+# WeasyPrint
+# import weasyprint
+# no browser dependency
+# does not respect overflow to continued cards.
+
+# playwright 
+# uses async which introduces some bs I don't wanna deal with
+# depends on browsers still
 # import asyncio
 # from playwright.async_api import async_playwright
 # async def html_to_pdf(html_content, output_path):
@@ -27,6 +44,7 @@ def html_to_pdf(html_content, output_path):
         css_insert = textwrap.dedent(css_insert)
         insert_index = html_content.find("</style>")
         html_content = html_content[:insert_index] + css_insert + html_content[insert_index:]
+    # using pyhtml2pdf
     converter.convert(
         source=html_content,
         target=output_path,
@@ -38,3 +56,8 @@ def html_to_pdf(html_content, output_path):
             "printBackground":False,
         }
     )
+    # #########
+    # # using weasyprint
+    # weasyprint.HTML(string=html_content).write_pdf(output_path)
+
+    
