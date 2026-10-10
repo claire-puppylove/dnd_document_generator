@@ -1,11 +1,13 @@
 # -*- encoding: UTF-8 -*-
 """Markdown Preview main."""
-import os
+import pathlib
 import codecs
 from markdown import Markdown
 from markdown.extensions.tables import TableExtension
 
 # references: https://github.com/facelessuser/MarkdownPreview/blob/master/markdown_preview.py
+
+PROJECT_PATH = pathlib.Path(__file__).parent.parent.parent.resolve()
 
 def load_utf8(filename):
     """Load UTF8 file."""
@@ -16,26 +18,16 @@ class MarkdownCompiler:
     """Python Markdown compiler."""
     compiler_name = "markdown"
     default_css = [
-        "./css/libre-baskerville.css",
-        "./css/noto-sans.css",
-        "./css/markdown.css",
-        "./css/dnd_like.css",
+        PROJECT_PATH / "css" / "libre-baskerville.css",
+        PROJECT_PATH / "css" / "noto-sans.css",
+        PROJECT_PATH / "css" / "markdown.css",
+        PROJECT_PATH / "css" / "dnd_like.css",
         ]
-    def get_title(self):
-        """Get HTML title."""
-        if self.meta_title is not None:
-            title = self.meta_title
-        else:
-            title = self.view.name()
-        if not title:
-            fn = self.view.file_name()
-            title = 'untitled' if not fn else os.path.splitext(os.path.basename(fn))[0]
-        return '<title>%s</title>' % html.escape(title)
     def get_default_css(self):
         """Locate the correct CSS with the `css` setting."""
         css_text = []
         css_text = [
-            f"<style>{load_utf8(os.path.expanduser(i))}</style>"
+            f"<style>{load_utf8(i.resolve())}</style>"
             for i in self.default_css
             ]
         return '\n'.join(css_text)

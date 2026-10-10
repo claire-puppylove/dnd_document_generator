@@ -3,7 +3,7 @@ import pathlib
 import logging
 from typing import Literal, Optional
 
-FILE_MONSTER_DROPS = pathlib.Path("../assets/monster_drops_all_dm.csv")
+FILE_MONSTER_DROPS = pathlib.Path("assets/monster_drops_all_dm.csv")
 MONSTER_DROPS = pandas.read_csv(FILE_MONSTER_DROPS, sep=",", quotechar='"', quoting=0)
 
 class Item:
