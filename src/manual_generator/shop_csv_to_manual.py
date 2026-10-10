@@ -53,7 +53,7 @@ class ShopMenu:
         shop_items:   list[ShopItem]: ?
         indexes:
             item_name_index:   str: The name of the item, it has to have the CSV head row index "Name" or "name"
-            cost_index:        str: The item cost in the shop (string to add units), it has to have the CSV head row index "Cost" or "cost", or "Price" or "price"
+            cost_index:        str: The item cost in the shop (string to add units), it has to have the CSV head row index "Cost" or "cost", "Price" or "price","Value" or "value"
             description_index: str: The item description, it has to have the CSV head row index "Description" or "description"
     
     The indexes will be detected before use.
@@ -66,7 +66,7 @@ class ShopMenu:
         # first matches only
         self.indexes = {
             "item_name_index":[ind for ind in ["Name","name"] if ind in sourcefile.columns][0],
-            "cost_index":[ind for ind in ["Cost","cost","Price","price"] if ind in sourcefile.columns][0],
+            "cost_index":[ind for ind in ["Cost","cost","Price","price","Value","value"] if ind in sourcefile.columns][0],
             "description_index":[ind for ind in ["Description","description"] if ind in sourcefile.columns][0]
             }
         self.shop_items = [ShopItem(sourcefile.loc[x],self.indexes) for x in range(len(sourcefile))]

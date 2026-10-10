@@ -24,7 +24,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     # logging.basicConfig(level=logging.INFO)
     # logging.info(f"Generating shop menu with args:{args}")
-    print(f"Generating shop cards with args:{args}")
+    print(f"\n\nGenerating shop cards with args:{args}")
     filename = pathlib.Path(args.destination) / pathlib.Path(f"{args.file}.md")
     sourcefile = pathlib.Path(args.sourcefile)
     SHOP_FILE = pandas.read_csv(sourcefile, sep=",", quotechar='"', quoting=0)
@@ -36,7 +36,8 @@ if __name__ == '__main__':
             "with alternate rolling to find options." in item.description,
             "from the Crooked Moon potions." in item.description,
             "from the Crooked Moon cursed curios." in item.description,
-            "Paper" in item.item_name,
+            # "Paper" in item.item_name,
+            # "Parchment" in item.item_name
             ]
         if not any(skip_conditions):
             if "storage" in item.details:
@@ -83,6 +84,14 @@ if __name__ == '__main__':
                 "cooking_effect",
                 "source",
                 "Source",
+                "Material Cost",
+                "material_cost",
+                "Days",
+                "days",
+                "Labor Cost",
+                "labor_cost",
+                "Assistance Needed",
+                "assistance_needed"
                 ]
             for key,det in item.details.items():
                 if det != "" and det != "-":

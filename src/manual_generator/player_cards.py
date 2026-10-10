@@ -1,6 +1,8 @@
 import os
 import codecs
 import markdown
+import html2text
+import textwrap
 
 # references: https://github.com/facelessuser/MarkdownPreview/blob/master/markdown_preview.py
 
@@ -79,11 +81,11 @@ class Card:
         fout+= f"        <div class='top-section'>\n"
         fout+= f"            {self.item_type}\n"
         fout+= f"        </div>\n"
-        fout+= f"        <div class='section'>\n"
-        fout+= f"            <span class='subtitle'>Source:</span>\n"
-        fout+= f"            <span class='desc'>{self.source}</span>\n"
-        fout+= f"        </div>\n"
         sout = ""
+        sout+= f"        <div class='section'>\n"
+        sout+= f"            <span class='subtitle'>Source:</span>\n"
+        sout+= f"            <span class='desc'>{self.source}</span>\n"
+        sout+= f"        </div>\n"
         if self.storage!="-":
             sout+= f"        <div class='section'>\n"
             sout+= f"            <span class='subtitle'>Store in:</span>\n"
@@ -115,14 +117,29 @@ class Card:
             sout+= f"            <span class='subtitle'>Cooking Effect:</span>\n"
             sout+= f"            <span class='desc'>{self.cooking_effect}</span>\n"
             sout+= f"        </div>\n"
-        # 33 lines before break, avg 50 chars per line
-        lines = (
-            (len(sout)//51)
-            -(sout.count("<span class='subtitle'>")*2)
-            -(sout.count("&nbsp;")*5)
-            +(sout.count("<br>"))
-            # +(sout.count("<div class= 'divider'>"))
+        # card fits 30 lines after the item type and horizontal line
+        # avg 65 chars per line
+        h2t = html2text.HTML2Text()
+        # h2t.body_width = 65
+        h2t.body_width = 0 # otherwise single_line_break is ignored >:(
+        h2t.single_line_break = True
+        card_text = h2t.handle(sout)\
+            .strip()\
+            .replace("—","--")\
+            .replace("Source:","*Source:*")\
+            .replace("Store in:","*Store in:*")\
+            .replace("Use as ingredient for:","*Use as ingredient for:*")\
+            .replace("Crafting Value (when used as ingredient):","*Crafting Value (when used as ingredient):*")\
+            .replace("Use:","*Use:*")\
+            .replace("Description:","*Description:*")\
+            .replace("Cooking Effect:","*Cooking Effect:*")
+        card_text = [cl for cl in card_text.splitlines() if cl!=""]
+        wrapper = textwrap.TextWrapper(
+            width=65,
+            replace_whitespace=False,
             )
+        card_text_wrapped = "\n".join(wrapper.fill(cl) for cl in card_text)
+        lines = len(card_text_wrapped.splitlines())
         out = fout+sout
         if lines > 30:
             print(f"Warning: card text too long for card {self.item_name}, breaking new line and using two cards *counted {lines} lines.")

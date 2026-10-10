@@ -23,7 +23,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     # logging.basicConfig(level=logging.INFO)
     # logging.info(f"Generating shop menu with args:{args}")
-    print(f"Generating shop menu with args:{args}")
+    print(f"\n\nGenerating shop menu with args:{args}")
     filename = pathlib.Path(args.destination) / pathlib.Path(f"{args.file}.md")
     sourcefile = pathlib.Path(args.sourcefile)
     SHOP_FILE = pandas.read_csv(sourcefile, sep=",", quotechar='"', quoting=0)

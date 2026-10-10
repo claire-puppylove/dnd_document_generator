@@ -15,6 +15,7 @@ if __name__ == '__main__':
     parser.add_argument("-t", "--title", type=str, default="Crooked Moon Harvesting Items (Player Handout Cards)")
     parser.add_argument("-s", "--sourcefile", type=str, default="../assets/monster_drops_all_dm.csv")
     parser.add_argument("-p", "--party", type=int, default=4)
+    parser.add_argument("--overridemaxrepeats", type=int, default=0)
     parser.add_argument('--pdf', action='store_true')
     parser.add_argument('--no-pdf', dest='pdf', action='store_false')
     parser.set_defaults(pdf=True)
@@ -36,7 +37,7 @@ if __name__ == '__main__':
             "with alternate rolling to find options." in item.description,
             "from the Crooked Moon potions." in item.description,
             "from the Crooked Moon cursed curios." in item.description,
-            "Paper" in item.item_name,
+            # "Paper" in item.item_name,
             ]
         if not any(skip_conditions):
             card = Card(
@@ -61,6 +62,16 @@ if __name__ == '__main__':
                 if amount >= largest_amount:
                     largest_amount = amount
             cards.extend([str(card)]*largest_amount)
+    if args.overridemaxrepeats != 0:
+        if args.overridemaxrepeats < 0:
+            raise argparse.ArgumentTypeError("%s is an invalid number of maximum repeating cards" % args.overridemaxrepeats)
+        counts = {card:0 for card in set(cards)}
+        override_cards = []
+        for card in cards:
+            counts[card]+=1
+            if counts[card] <= args.overridemaxrepeats:
+                override_cards.append(card)
+        cards = override_cards
     cards_html="\n".join(cards)
     title = args.title
     html,body = PrintCards().run(cards_html, title)
