@@ -68,12 +68,19 @@ git clone https://github.com/claire-puppylove/Crooked-Moon-Monster-Harvesting/
 cd Crooked-Moon-Monster-Harvesting/manual_generator
 ```
 
-And finally install the project
+And install the project
 
 ```sh
 # @ shell::~/Crooked-Moon-Monster-Harvesting/manual_generator
 poetry install
 ```
+
+Now, for the PDF generation to be automatic, you need to install the following:
+
+- [Selenium Chrome Webdriver](https://chromedriver.chromium.org/downloads) (If Chrome is installed on the machine you won't need to install the chrome driver)
+- [Ghostscript](https://www.ghostscript.com/download.html)
+
+However if you prefer to not go through that hassle, you can always execute the commands with a `--no-pdf` flag instead and then instead print the HTML file from your browser and save to PDF.
 
 ## Generator
 

@@ -487,7 +487,7 @@ body .markdown-body
 
 .markdown-body table tr {
   background-color: #fff;
-  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
 }
 
 .markdown-body table tr:nth-child(2n) {
@@ -944,90 +944,92 @@ body .markdown-body
 }
 
 @page{
+  size:A4;
   margin-top: 0.4in;
   margin-bottom: 0.4in;
 }
 
 @media print {
   body {
-    max-width: 100%;
-    margin: 0 15mm;
+    max-width: 100% !important;
+    margin: 0 15mm 0 15mm !important;
   }
 
   body .markdown-body
   {
-    padding:0;
+    padding:0 !important;
+    background: transparent !important;
   }
 
   .markdown-body * {
     background: transparent !important;
-    /*color: black !important;*/
     filter:none !important;
     -ms-filter: none !important;
   }
 
   .markdown-body {
-    font-size: 7.5pt;
-    max-width:100%;
-    outline:none;
-    border: 0;
+    font-size: 7.5pt !important;
+    max-width:100% !important;
+    outline:none !important;
+    border: 0 !important;
+    color: black;
   }
 
   .markdown-body a,
   .markdown-body a:visited {
-    text-decoration: underline;
+    text-decoration: underline !important;
   }
 
   .markdown-body .headeranchor-link {
-    display: none;
+    display: none !important;
   }
 
   .markdown-body a[href]:after {
-    content: " (" attr(href) ")";
+    content: " (" attr(href) ")" !important;
   }
 
   .markdown-body abbr[title]:after {
-    content: " (" attr(title) ")";
+    content: " (" attr(title) ")" !important;
   }
 
   .markdown-body .ir a:after,
   .markdown-body a[href^="javascript:"]:after,
   .markdown-body a[href^="#"]:after {
-    content: "";
+    content: "" !important;
   }
 
   .markdown-body pre {
-    white-space: pre;
-    white-space: pre-wrap;
-    word-wrap: break-word;
+    white-space: pre !important;
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
   }
 
   .markdown-body pre,
   .markdown-body blockquote {
-    border: 1px solid #999;
-    padding-right: 1em;
-    page-break-inside: avoid;
+    border: 1px solid #999 !important;
+    padding-right: 1em !important;
+    page-break-inside: avoid !important;
   }
 
   .markdown-body .progress,
   .markdown-body .progress-bar {
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
   }
 
   .markdown-body .progress {
-    border: 1px solid #ddd;
+    border: 1px solid #ddd !important;
   }
 
   .markdown-body .progress-bar {
     height: 22px;
-    border-right: 1px solid #ddd;
+    border-right: 1px solid #ddd !important;
   }
 
   .markdown-body tr,
   .markdown-body img {
-    page-break-inside: avoid;
+    page-break-inside: avoid !important;
   }
 
   .markdown-body img {
@@ -1037,20 +1039,37 @@ body .markdown-body
   .markdown-body p,
   .markdown-body h2,
   .markdown-body h3 {
-    orphans: 3;
-    widows: 3;
+    orphans: 3 !important;
+    widows: 3 !important;
   }
 
   .markdown-body h2,
   .markdown-body h3,
   .markdown-body h4 {
-    page-break-after: avoid;
+    page-break-after: avoid !important;
+  }
+
+  .markdown-body table {
+    break-inside: avoid-column;
   }
 
   .markdown-body table th,
   .markdown-body table td {
-    padding: 2px 6px;
-    border: none;
+    padding: 2px 6px !important;
+    border: none !important;
+    color: black !important;
+    margin-top: 0;
+    line-height: 1.05;
+  }
+
+  .markdown-body table tr {
+    border:none !important;
+  }
+
+  .markdown-body table tr,
+  .markdown-body table th {
+    border-top:0 !important;
+    border-bottom: 1pt solid #ccc !important;
   }
 }
 

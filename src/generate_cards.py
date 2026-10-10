@@ -3,7 +3,7 @@ import pandas
 import pathlib
 import re
 # import md_toc
-# import pdfkit
+from manual_generator.html_to_pdf import html_to_pdf
 from manual_generator.manual_generator import ManualGenerator
 from manual_generator.player_cards import Card, PrintCards
 
@@ -13,6 +13,9 @@ if __name__ == '__main__':
     parser.add_argument("-d", "--destination", type=str, default="../cards/")
     parser.add_argument("-s", "--sourcefile", type=str, default="../assets/monster_drops_all_dm.csv")
     parser.add_argument("-p", "--party", type=int, default=4)
+    parser.add_argument('--pdf', action='store_true')
+    parser.add_argument('--no-pdf', dest='pdf', action='store_false')
+    parser.set_defaults(pdf=True)
     args = parser.parse_args()
     mode = "by_monster"
     filename = pathlib.Path(args.destination) / pathlib.Path(f"{args.file}.html")
@@ -54,6 +57,9 @@ if __name__ == '__main__':
                     largest_amount = amount
             cards.extend([str(card)]*largest_amount)
     cards_html="\n".join(cards)
-    html,body = PrintCards().run(cards_html, f"Crooked Moon Harvesting Items (Player Handout Cards)")
+    title = f"Crooked Moon Harvesting Items (Player Handout Cards)"
+    html,body = PrintCards().run(cards_html, title)
     with open(filename.with_suffix('.html'),"w") as f:
         f.write(html)
+    if args.pdf:
+        html_to_pdf(html, filename.with_name(title).with_suffix('.pdf'))
