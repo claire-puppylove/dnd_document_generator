@@ -4,9 +4,9 @@ import pathlib
 import re
 # import logging
 # import md_toc
-from manual_generator.html_to_pdf import html_to_pdf
+from document_utils.html_to_pdf import html_to_pdf
 from manual_generator.harvesting_manual_generator import HarvestingManualGenerator
-from manual_generator.player_cards import Card, PrintCards
+from card_generator.player_cards import Card, PrintCards
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

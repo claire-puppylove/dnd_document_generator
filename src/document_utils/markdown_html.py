@@ -16,12 +16,10 @@ class MarkdownCompiler:
     """Python Markdown compiler."""
     compiler_name = "markdown"
     default_css = [
-        "./css/markdown.css",
         "./css/libre-baskerville.css",
         "./css/noto-sans.css",
-        "./css/dnd.min.css",
+        "./css/markdown.css",
         "./css/dnd_like.css",
-        # "./css/statblock-style.css",
         ]
     def get_title(self):
         """Get HTML title."""

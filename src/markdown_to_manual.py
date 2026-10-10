@@ -2,8 +2,8 @@ import argparse
 import pathlib
 # import logging
 # import md_toc
-from manual_generator.html_to_pdf import html_to_pdf
-from manual_generator.markdown_html import MarkdownCompiler
+from document_utils.html_to_pdf import html_to_pdf
+from document_utils.markdown_html import MarkdownCompiler
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

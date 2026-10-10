@@ -1,11 +1,12 @@
 import argparse
 import pandas
 import pathlib
+from bs4 import BeautifulSoup
 # import logging
 # import md_toc
-from manual_generator.html_to_pdf import html_to_pdf
+from document_utils.html_to_pdf import html_to_pdf
+from document_utils.markdown_html import MarkdownCompiler
 from manual_generator.harvesting_manual_generator import HarvestingManualGenerator
-from manual_generator.markdown_html import MarkdownCompiler
 
 FILE_README = pathlib.Path("../README.md")
 with open(FILE_README, 'r') as f:
@@ -53,9 +54,14 @@ if __name__ == '__main__':
     title = f"Crooked Moon Harvesting Items {args.title}({args.version} - {args.mode.replace("_"," ")})"
     html,body = MarkdownCompiler().run(md,title)
     _,readme_body = MarkdownCompiler().run(readme,"")
-    readme_insert = """<div class="wide">""" + readme_body + "</div>"
+    readme_soup = BeautifulSoup(readme_body, "lxml")
+    readme_wrapped = ""
+    elements = readme_soup.find("body").find_all(recursive=False)
+    for block in elements:
+        readme_insert = """<div class="wide">""" + str(block) + "</div>"
+        readme_wrapped+=readme_insert
     insert_index = html.find("""<body><article class="markdown-body">""")+len("""<body><article class="markdown-body">""")
-    out_html = html[:insert_index] + readme_insert + html[insert_index:]
+    out_html = html[:insert_index] + readme_wrapped + html[insert_index:]
     with open(filename.with_suffix('.html'),"w") as f:
         f.write(out_html)
     if args.pdf:
