@@ -1,5 +1,6 @@
 import pandas
 import pathlib
+import logging
 from typing import Literal, Optional
 
 FILE_MONSTER_DROPS = pathlib.Path("../assets/monster_drops_all_dm.csv")
@@ -158,12 +159,23 @@ class Item:
                 out+= f"**Locations**: {", ".join(self.location[self.monsters[0]])}  \n"
         return out
 
-
-class ManualGenerator:
+# rename to HarvestingManualGenerator because there's other types of manual now.
+class HarvestingManualGenerator:
     '''
     Class to output items organized by different things. For now:
         by_item()   : A simple output of the CSV as Markdown
         by_monster(): A filtered output organized by monster, with repeated items when it is dropped by other monsters
+    
+    Attributes:
+        version: Literal[
+                     "dm",
+                     "player"
+                 ]                 : ?
+        mode:    Literal[
+                     "by_item",
+                     "by_monster",
+                 ]                 : ?
+        items:   list[Item]        : ?
     '''
     def __init__(
             self,
@@ -186,37 +198,41 @@ class ManualGenerator:
             self.items = []
             for x in range(len(sourcefile)):
                 row = sourcefile.loc[x]
-                self.items.append(Item(
-                    item_name=row.item_name.split("(DM Eyes only:")[0],
-                    storage=row.storage,
-                    monsters=row.monsters,
-                    item_type=row.item_type.split("(DM Eyes only:")[0],
-                    ingredient_type=row.ingredient_type.split("(DM Eyes only:")[0],
-                    crafting_value=row.crafting_value.split("(DM Eyes only:")[0],
-                    use=row.use.split("(DM Eyes only:")[0],
-                    description=row.description.split("(DM Eyes only:")[0],
-                    cooking_effect=row.cooking_effect.split("(DM Eyes only:")[0],
-                    find_checks="Crafted Item" if "Crafted Item" in row.find_checks else "-",
-                    find_dc="-",
-                    location="-",
-                    source=row.source.split("(")[0],
-                    ))
+                try:
+                    self.items.append(Item(
+                        item_name=row.item_name.split("(DM Eyes only:")[0],
+                        storage=row.storage,
+                        monsters=row.monsters,
+                        item_type=row.item_type.split("(DM Eyes only:")[0],
+                        ingredient_type=row.ingredient_type.split("(DM Eyes only:")[0],
+                        crafting_value=row.crafting_value.split("(DM Eyes only:")[0],
+                        use=row.use.split("(DM Eyes only:")[0],
+                        description=row.description.split("(DM Eyes only:")[0],
+                        cooking_effect=row.cooking_effect.split("(DM Eyes only:")[0],
+                        find_checks="Crafted Item" if "Crafted Item" in row.find_checks else "-",
+                        find_dc="-",
+                        location="-",
+                        source=row.source.split("(")[0],
+                        ))
+                except Exception as e:
+                    raise RuntimeError(f"Error in row:{row}") from e
+                    
     def by_item(self):
         if self.version == "dm":
             out = "  \n\n".join(
                 [
-                    f"### {item.item_name}  \n\n" + \
+                    f"### {item.item_name}\n" + \
                     str(item)\
-                    .replace(f"**{item.item_name}**  \n","")
+                    .replace(f"**{item.item_name}**  \n---  \n","")
                     for item in self.items
                 ]
             )
         else:
             out = "  \n\n".join(
                 [
-                    f"### {item.item_name}  \n\n" + \
+                    f"### {item.item_name}\n" + \
                     str(item)\
-                    .replace(f"**{item.item_name}**  \n","")\
+                    .replace(f"**{item.item_name}**  \n---  \n","")\
                     .replace(f"**Monster(s)**: {", ".join(item.monsters)}  \n","")
                     for item in self.items
                 ]
