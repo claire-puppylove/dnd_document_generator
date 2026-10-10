@@ -1,6 +1,6 @@
 [project]
 name = "manual-generator"
-version = "1.8.0"
+version = "1.8.1"
 description = ""
 authors = [
     {name = "claire-puppylove",email = "claire.puppylove.model@gmail.com"}

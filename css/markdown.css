@@ -984,9 +984,9 @@ body .markdown-body
     display: none !important;
   }
 
-  .markdown-body a[href]:after {
+  /*.markdown-body a[href]:after {
     content: " (" attr(href) ")" !important;
-  }
+  }*/
 
   .markdown-body abbr[title]:after {
     content: " (" attr(title) ")" !important;
@@ -1030,6 +1030,7 @@ body .markdown-body
   .markdown-body tr,
   .markdown-body img {
     page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
 
   .markdown-body img {
@@ -1071,5 +1072,11 @@ body .markdown-body
     border-top:0 !important;
     border-bottom: 1pt solid #ccc !important;
   }
+
+  .pagebreak {
+    page-break-after:always;
+    display: block;
+  } /* page-break-before works, as well */
+
 }
 
