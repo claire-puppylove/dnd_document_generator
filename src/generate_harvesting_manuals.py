@@ -1,7 +1,6 @@
 import argparse
 import pandas
 import pathlib
-from bs4 import BeautifulSoup
 # import logging
 # import md_toc
 from document_utils.html_to_pdf import html_to_pdf
@@ -20,9 +19,9 @@ def main():
     parser.add_argument("-f", "--file", type=str, default="harvesting_items")
     parser.add_argument("-v", "--version", type=str, default="dm")
     parser.add_argument("-m", "--mode", type=str, default="by_item")
-    parser.add_argument("-t", "--title", type=str, default="")
-    parser.add_argument("-d", "--destination", type=str, default="manuals/")
+    parser.add_argument("-t", "--title", type=str, default="Harvesting Items")
     parser.add_argument("-s", "--sourcefile", type=str, default="assets/monster_drops_all_dm.csv")
+    parser.add_argument("-d", "--destination", type=str, default="harvesting_manuals")
     parser.add_argument('--readme', action='store_true')
     parser.add_argument('--no-readme', dest='readme', action='store_false')
     parser.set_defaults(readme=True)
@@ -51,15 +50,10 @@ def main():
         # md_toc.api.write_string_on_file_between_markers(filename, toc, '<!-- TOC -->')
     with open(filename,"r") as f:
         md = f.read()
-    title = f"Crooked Moon Harvesting Items {args.title}({args.version} - {args.mode.replace("_"," ")})"
+    title = f"{args.title} ({args.version} - {args.mode.replace("_"," ")})"
     html,body = MarkdownCompiler().run(md,title)
     _,readme_body = MarkdownCompiler().run(readme,"")
-    readme_soup = BeautifulSoup(readme_body, "lxml")
-    readme_wrapped = ""
-    elements = readme_soup.find("body").find_all(recursive=False)
-    for block in elements:
-        readme_insert = """<div class="wide">""" + str(block) + "</div>"
-        readme_wrapped+=readme_insert
+    readme_wrapped = """<div class="wide">""" + readme_body + "</div>"
     insert_index = html.find("""<body><article class="markdown-body">""")+len("""<body><article class="markdown-body">""")
     out_html = html[:insert_index] + readme_wrapped + html[insert_index:]
     with open(filename.with_suffix('.html'),"w") as f:

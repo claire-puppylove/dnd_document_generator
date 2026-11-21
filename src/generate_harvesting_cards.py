@@ -10,10 +10,10 @@ from card_generator.player_cards import Card, PrintCards
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-f", "--file", type=str, default="harvesting_items")
-    parser.add_argument("-d", "--destination", type=str, default="cards")
-    parser.add_argument("-t", "--title", type=str, default="Crooked Moon Harvesting Items (Player Handout Cards)")
+    parser.add_argument("-f", "--file", type=str, default="harvesting_items_cards")
+    parser.add_argument("-t", "--title", type=str, default="Harvesting Items (Player Handout Cards)")
     parser.add_argument("-s", "--sourcefile", type=str, default="assets/monster_drops_all_dm.csv")
+    parser.add_argument("-d", "--destination", type=str, default="cards")
     parser.add_argument("-p", "--party", type=int, default=4)
     parser.add_argument("--overridemaxrepeats", type=int, default=0)
     parser.add_argument('--pdf', action='store_true')
@@ -31,14 +31,14 @@ def main():
     dm_manual = HarvestingManualGenerator(version="dm",mode=mode,sourcefile=MONSTER_DROPS)
     assert len(dm_manual.items) == len(player_manual.items)
     cards = []
+    # todo: from args?
+    skip_conditions = [
+        "Random" in item.item_name,
+        "with alternate rolling to find options." in item.description,
+        "from the Crooked Moon potions." in item.description,
+        "from the Crooked Moon cursed curios." in item.description,
+        ]
     for num,item in enumerate(player_manual.items):
-        skip_conditions = [
-            "Random" in item.item_name,
-            "with alternate rolling to find options." in item.description,
-            "from the Crooked Moon potions." in item.description,
-            "from the Crooked Moon cursed curios." in item.description,
-            # "Paper" in item.item_name,
-            ]
         if not any(skip_conditions):
             card = Card(
                 item_name = item.item_name,

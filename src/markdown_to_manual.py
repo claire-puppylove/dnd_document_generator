@@ -7,10 +7,10 @@ from document_utils.markdown_html import MarkdownCompiler
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-f", "--file", type=str, default="dm_screen")
-    parser.add_argument("-t", "--title", type=str, default="DM Screen")
-    parser.add_argument("-d", "--destination", type=str, default="manuals/")
-    parser.add_argument("-s", "--sourcefile", type=str, default="assets/dm_screen.md")
+    parser.add_argument("-f", "--file", type=str)
+    parser.add_argument("-t", "--title", type=str)
+    parser.add_argument("-s", "--sourcefile", type=str)
+    parser.add_argument("-d", "--destination", type=str)
     parser.add_argument('--pdf', action='store_true')
     parser.add_argument('--no-pdf', dest='pdf', action='store_false')
     parser.set_defaults(pdf=True)
@@ -24,7 +24,7 @@ def main():
         md = f.read()
     with open(filename.with_suffix('.md'),"w") as f:
         f.write(md)
-    title = f"Crooked Moon {args.title}"
+    title = f"{args.title}"
     html,body = MarkdownCompiler().run(md,title)
     with open(filename.with_suffix('.html'),"w") as f:
         f.write(html)

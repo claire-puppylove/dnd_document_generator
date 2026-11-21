@@ -1,6 +1,6 @@
 [project]
-name = "game_documents_generator"
-version = "2.1.0"
+name = "dnd_documents_generator"
+version = "2.2.0"
 description = ""
 authors = [
     {name = "claire-puppylove",email = "claire.puppylove.model@gmail.com"}
@@ -18,21 +18,28 @@ dependencies = [
     "playwright (>=1.63.0,<2.0.0)",
     "pdfkit (>=1.0.0,<2.0.0)",
     "beautifulsoup4 (>=4.15.0,<5.0.0)",
+    "pint (>=0.26.1,<0.27.0)",
 ]
 
+
 [project.scripts]
-generate_cards = 'generate_cards:main'
-generate_manuals = 'generate_manuals:main'
+generate_harvesting_cards = 'generate_harvesting_cards:main'
+generate_harvesting_manuals = 'generate_harvesting_manuals:main'
 generate_shop_cards = 'generate_shop_cards:main'
 generate_shop_menus = 'generate_shop_menus:main'
 markdown_to_manual = 'markdown_to_manual:main'
 
 [tool.poetry]
 packages = [
+    {include = "card_generator", from = "src"},
+    {include = "dnd_utils", from = "src"},
     {include = "document_utils", from = "src"},
     {include = "manual_generator", from = "src"},
-    {include = "card_generator", from = "src"},
+    # {include = "character_sheet_generator", from = "src"},
+    # {include = "npc_interaction_sheet_generator", from = "src"},
 ]
+
+
 
 
 [build-system]

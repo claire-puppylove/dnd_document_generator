@@ -1,4 +1,4 @@
-# Game Documents Generator
+# DnD Documents Generator
 
 I made a few methods to make Markdown documents based on CSV or YAML content for DnD.
 
@@ -256,7 +256,7 @@ Run the generator like so:
 # @ shell::~/your_campaign_folder_here/
 poetry run --project "~/dnd_documents_generator" markdown_to_manual \
     --file "dm_screen" \
-    --title "DM Screen" \
+    --title "Crooked Moon DM Screen" \
     --sourcefile "assets/dm_screen.md" \
     --destination "manuals" \
     --pdf

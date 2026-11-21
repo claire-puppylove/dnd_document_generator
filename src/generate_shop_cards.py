@@ -6,13 +6,14 @@ from document_utils.html_to_pdf import html_to_pdf
 from document_utils.markdown_html import MarkdownCompiler
 from manual_generator.shop_csv_to_manual import ShopMenu
 from card_generator.player_cards import Card, PrintCards
+from dnd_utils.dnd_currency import cost_to_crafting_value, currency_value_to_string
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-f", "--file", type=str, default="sample_shop")
-    parser.add_argument("-t", "--title", type=str, default="Sample Shop Cards")
-    parser.add_argument("-d", "--destination", type=str, default="cards/")
-    parser.add_argument("-s", "--sourcefile", type=str, default="assets/sample_shop.csv")
+    parser.add_argument("-f", "--file", type=str)
+    parser.add_argument("-t", "--title", type=str)
+    parser.add_argument("-s", "--sourcefile", type=str)
+    parser.add_argument("-d", "--destination", type=str)
     parser.add_argument('--pdf', action='store_true')
     parser.add_argument('--no-pdf', dest='pdf', action='store_false')
     parser.set_defaults(pdf=True)
@@ -25,15 +26,14 @@ def main():
     SHOP_FILE = pandas.read_csv(sourcefile, sep=",", quotechar='"', quoting=0)
     shop_menu = ShopMenu(SHOP_FILE, shop_name=args.title)
     cards = []
+    # todo: add skip conditions from args
+    skip_conditions = [
+        "Random" in item.item_name,
+        "with alternate rolling to find options." in item.description,
+        "from the Crooked Moon potions." in item.description,
+        "from the Crooked Moon cursed curios." in item.description,
+        ]
     for num,item in enumerate(shop_menu.shop_items):
-        skip_conditions = [
-            "Random" in item.item_name,
-            "with alternate rolling to find options." in item.description,
-            "from the Crooked Moon potions." in item.description,
-            "from the Crooked Moon cursed curios." in item.description,
-            # "Paper" in item.item_name,
-            # "Parchment" in item.item_name
-            ]
         if not any(skip_conditions):
             if "storage" in item.details:
                 storage = item.details["storage"]
@@ -94,7 +94,8 @@ def main():
                         description += f"__{key}__: {det}  \n"
             if item.description != "" and item.description != "-":
                 description += f"{item.description} \n"
-            crafting_value = f"Half of cost: {item.cost}"
+            cv_quantity = cost_to_crafting_value(item.cost)
+            crafting_value = currency_value_to_string(*cv_quantity)
             card = Card(
                 item_name = item.item_name,
                 storage = storage,

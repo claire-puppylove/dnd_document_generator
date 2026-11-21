@@ -8,10 +8,10 @@ from manual_generator.shop_csv_to_manual import ShopMenu
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-f", "--file", type=str, default="sample_shop")
-    parser.add_argument("-t", "--title", type=str, default="Sample Shop")
-    parser.add_argument("-d", "--destination", type=str, default="manuals/")
-    parser.add_argument("-s", "--sourcefile", type=str, default="assets/sample_shop.csv")
+    parser.add_argument("-f", "--file", type=str)
+    parser.add_argument("-t", "--title", type=str)
+    parser.add_argument("-s", "--sourcefile", type=str)
+    parser.add_argument("-d", "--destination", type=str)
     parser.add_argument('--pdf', action='store_true')
     parser.add_argument('--no-pdf', dest='pdf', action='store_false')
     parser.set_defaults(pdf=True)
