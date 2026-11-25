@@ -7,21 +7,16 @@ from document_utils.html_to_pdf import html_to_pdf
 from document_utils.markdown_html import MarkdownCompiler
 from manual_generator.harvesting_manual_generator import HarvestingManualGenerator
 
-FILE_README = pathlib.Path("README.md")
-with open(FILE_README, 'r') as f:
-    README = f.read()
-FILE_README_PLAYER = pathlib.Path("README_player.md")
-with open(FILE_README_PLAYER, 'r') as f:
-    README_PLAYER = f.read()
-
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-f", "--file", type=str, default="harvesting_items")
     parser.add_argument("-v", "--version", type=str, default="dm")
     parser.add_argument("-m", "--mode", type=str, default="by_item")
     parser.add_argument("-t", "--title", type=str, default="Harvesting Items")
-    parser.add_argument("-s", "--sourcefile", type=str, default="assets/monster_drops_all_dm.csv")
+    parser.add_argument("-s", "--sourcefile", type=str) # e.g. "assets/monster_drops_all_dm.csv"
     parser.add_argument("-d", "--destination", type=str, default="harvesting_manuals")
+    parser.add_argument("--readme_dm", type=str)
+    parser.add_argument("--readme_player", type=str)
     parser.add_argument('--readme', action='store_true')
     parser.add_argument('--no-readme', dest='readme', action='store_false')
     parser.set_defaults(readme=True)
@@ -36,6 +31,12 @@ def main():
     sourcefile = pathlib.Path(args.sourcefile)
     MONSTER_DROPS = pandas.read_csv(sourcefile, sep=",", quotechar='"', quoting=0)
     readme=""
+    FILE_README = pathlib.Path(args.readme_dm)
+    with open(FILE_README, 'r') as f:
+        README = f.read()
+    FILE_README_PLAYER = pathlib.Path(args.readme_player)
+    with open(FILE_README_PLAYER, 'r') as f:
+        README_PLAYER = f.read()
     if args.readme==True:
         if args.version=="dm":
             readme+= README
