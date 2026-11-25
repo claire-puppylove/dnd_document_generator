@@ -1,5 +1,5 @@
 import pint
-from decimal import Decimal, ROUND_HALF_UP
+from decimal import Decimal, ROUND_HALF_UP, ROUND_HALF_DOWN
 
 DND_CURRENCY_REGISTRY = pint.UnitRegistry(None)
 DND_CURRENCY_REGISTRY.define("copper_piece = 1 = CP = cp")
