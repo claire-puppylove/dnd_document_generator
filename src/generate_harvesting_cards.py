@@ -32,13 +32,13 @@ def main():
     assert len(dm_manual.items) == len(player_manual.items)
     cards = []
     # todo: from args?
-    skip_conditions = [
-        "Random" in item.item_name,
-        "with alternate rolling to find options." in item.description,
-        "from the Crooked Moon potions." in item.description,
-        "from the Crooked Moon cursed curios." in item.description,
-        ]
     for num,item in enumerate(player_manual.items):
+        skip_conditions = [
+            "Random" in item.item_name,
+            "with alternate rolling to find options." in item.description,
+            "from the Crooked Moon potions." in item.description,
+            "from the Crooked Moon cursed curios." in item.description,
+            ]
         if not any(skip_conditions):
             card = Card(
                 item_name = item.item_name,
