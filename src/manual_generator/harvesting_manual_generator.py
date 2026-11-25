@@ -3,8 +3,8 @@ import pathlib
 import logging
 from typing import Literal, Optional
 
-FILE_MONSTER_DROPS = pathlib.Path("assets/monster_drops_all_dm.csv")
-MONSTER_DROPS = pandas.read_csv(FILE_MONSTER_DROPS, sep=",", quotechar='"', quoting=0)
+# FILE_MONSTER_DROPS = pathlib.Path("../Crooked-Moon-Monster-Harvesting/assets/monster_drops_all_dm.csv")
+# MONSTER_DROPS = pandas.read_csv(FILE_MONSTER_DROPS, sep=",", quotechar='"', quoting=0)
 
 class Item:
     '''
@@ -191,7 +191,7 @@ class HarvestingManualGenerator:
             ):
         self.version = version
         self.mode = mode
-        sourcefile = MONSTER_DROPS if sourcefile is None else sourcefile
+        # sourcefile = MONSTER_DROPS if sourcefile is None else sourcefile
         if self.version=="dm":
             self.items = [Item(*sourcefile.loc[x]) for x in range(len(sourcefile))]
         elif self.version=="player":
