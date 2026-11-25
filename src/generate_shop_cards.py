@@ -27,13 +27,13 @@ def main():
     shop_menu = ShopMenu(SHOP_FILE, shop_name=args.title)
     cards = []
     # todo: add skip conditions from args
-    skip_conditions = [
-        "Random" in item.item_name,
-        "with alternate rolling to find options." in item.description,
-        "from the Crooked Moon potions." in item.description,
-        "from the Crooked Moon cursed curios." in item.description,
-        ]
     for num,item in enumerate(shop_menu.shop_items):
+        skip_conditions = [
+            "Random" in item.item_name,
+            "with alternate rolling to find options." in item.description,
+            "from the Crooked Moon potions." in item.description,
+            "from the Crooked Moon cursed curios." in item.description,
+            ]
         if not any(skip_conditions):
             if "storage" in item.details:
                 storage = item.details["storage"]
