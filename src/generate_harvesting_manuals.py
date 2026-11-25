@@ -31,18 +31,18 @@ def main():
     sourcefile = pathlib.Path(args.sourcefile)
     MONSTER_DROPS = pandas.read_csv(sourcefile, sep=",", quotechar='"', quoting=0)
     readme=""
-    FILE_README = pathlib.Path(args.readme_dm)
-    with open(FILE_README, 'r') as f:
-        README = f.read()
-    FILE_README_PLAYER = pathlib.Path(args.readme_player)
-    with open(FILE_README_PLAYER, 'r') as f:
-        README_PLAYER = f.read()
     if args.readme==True:
         if args.version=="dm":
+            FILE_README = pathlib.Path(args.readme_dm)
+            with open(FILE_README, 'r') as f:
+                README = f.read()
             readme+= README
         elif args.version=="player":
+            FILE_README_PLAYER = pathlib.Path(args.readme_player)
+            with open(FILE_README_PLAYER, 'r') as f:
+                README_PLAYER = f.read()
             readme+= README_PLAYER
-    readme+= "\n  \n\n"
+        readme+= "\n  \n\n"
     manual = str(HarvestingManualGenerator(version=args.version,mode=args.mode,sourcefile=MONSTER_DROPS))
     with open(filename,"w") as f:
         f.write(manual)
@@ -53,10 +53,13 @@ def main():
         md = f.read()
     title = f"{args.title} ({args.version} - {args.mode.replace("_"," ")})"
     html,body = MarkdownCompiler().run(md,title)
-    _,readme_body = MarkdownCompiler().run(readme,"")
-    readme_wrapped = """<div class="wide">""" + readme_body + "</div>"
-    insert_index = html.find("""<body><article class="markdown-body">""")+len("""<body><article class="markdown-body">""")
-    out_html = html[:insert_index] + readme_wrapped + html[insert_index:]
+    if args.readme==True:
+        _,readme_body = MarkdownCompiler().run(readme,"")
+        readme_wrapped = """<div class="wide">""" + readme_body + "</div>"
+        insert_index = html.find("""<body><article class="markdown-body">""")+len("""<body><article class="markdown-body">""")
+        out_html = html[:insert_index] + readme_wrapped + html[insert_index:]
+    else:
+        out_html = html
     with open(filename.with_suffix('.html'),"w") as f:
         f.write(out_html)
     if args.pdf:

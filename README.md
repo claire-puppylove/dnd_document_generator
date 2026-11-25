@@ -134,6 +134,8 @@ poetry run --project "~/dnd_documents_generator" generate_manuals \
     --title "Chapter 1 drops" \
     --sourcefile "assets/monster_drops_chapter_1_example.csv" \
     --destination "example_handouts" \
+    --readme_dm "../Crooked-Moon-Monster-Harvesting/README.md" \
+    --readme_player "../Crooked-Moon-Monster-Harvesting/README_player.md" \
     --pdf
 ```
 
@@ -149,6 +151,8 @@ Where:
 - `--no-pdf` deactivates the PDF output, leaving only markdown and HTML.
 - `--readme` is an optional argument to add the `README.md` file contents to the start of the manual.
 - `--no-readme` is a deactivation of the optional inclusion of `README.md` file contents at the start of the manual.
+- `--readme_dm` is the path file to the `README.md` file for the manual (DM version with all info).
+- `--readme_player` is the path file to the `README.md` file for the manual (player version with hidden info).
 
 This should make a markdown and an HTML file automatically with only the items in your CSV file. Note that changing the number of columns or their names will make the program have errors.
 
